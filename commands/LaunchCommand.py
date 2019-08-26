@@ -24,7 +24,13 @@ def execute(args: list) -> None:
 			pm = pm[0: m.start()] + pm[m.end() + 1:]
 			splitted = m.group(0).split('=')
 			if len(splitted) >= 2:
-				margs[splitted[0]] = parse('='.join(splitted[1:]))
+				content = '='.join(splitted[1:])
+				if (content.startswith('\'') or content.startswith('"')) and len(content) > 1:
+					content = content[1:]
+				if (content.endswith('\'') or content.endswith('"')) and len(content) > 1:
+					content = content[:-1]
+				margs[splitted[0]] = parse(content)
+		print(margs)
 		modules[args[0]].run(margs)
 	else:
 		usage()
