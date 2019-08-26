@@ -14,6 +14,8 @@ class Module(object):
 	version = ''
 	author = ''
 	requirements = []
+	cache = {}
+	__cache = cache
 
 	def on_load(self) -> None or bool:
 		pass
@@ -39,12 +41,13 @@ def load_modules(path: str = None) -> None:
 		path=path,
 		output_class=Module,
 		required_vars=['name', 'version'],
-		optional_vars=['author', 'requirements'],
+		optional_vars=['author', 'requirements', 'cache'],
 		required_funcs=['run'],
 		optional_funcs=['on_load', 'on_unload']
 	)
 
 	for module in modules.values():
+		module.__cache = module.cache
 		module.on_load()
 
 	print(len(modules), 'modules loaded.')

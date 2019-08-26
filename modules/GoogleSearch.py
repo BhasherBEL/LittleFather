@@ -5,6 +5,9 @@ name = 'GoogleSearch'
 version = '1.0.0'
 author = 'Bhasher'
 requirements = []
+cache = {
+	'searches': {}
+}
 
 
 def on_load() -> None or bool:
@@ -26,5 +29,7 @@ def run(args: dict = None) -> None or bool:
 	value = custom_input() if 'search' not in args else args['search']
 	i = 20 if 'i' not in args else args['i']
 
-	for v in search(Data.driver, value, i):
-		print(v)
+	cache['searches'][value] = search(Data.driver, value, i)
+
+	if 'display' not in args or not args['display']:
+		print(cache['searches'][value])
