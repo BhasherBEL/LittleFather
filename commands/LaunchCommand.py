@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # coding: utf-8
 
-from Mods import modules
+import Mods
 from api import Error
 
 
@@ -14,7 +14,7 @@ dependencies = ['re']
 def execute(args: list) -> None:
 	import re
 
-	if len(args) >= 1 and args[0] in modules.keys():
+	if len(args) >= 1 and args[0] in Mods.modules.keys():
 		margs = {}
 		pm = ' '.join(args[1:])
 		for __ in pm:
@@ -30,14 +30,13 @@ def execute(args: list) -> None:
 				if (content.endswith('\'') or content.endswith('"')) and len(content) > 1:
 					content = content[:-1]
 				margs[splitted[0]] = parse(content)
-		print(margs)
-		modules[args[0]].run(margs)
+		Mods.modules[args[0]].run(margs)
 	else:
 		usage()
 
 
 def usage() -> None:
-	print('Usage: launch <' + ', '.join(modules.keys()) + '>')
+	print('Usage: launch <' + ', '.join(Mods.modules.keys()) + '> [arguments]')
 
 
 def parse(string: str) -> str or int or float or bool:

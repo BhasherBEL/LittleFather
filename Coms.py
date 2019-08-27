@@ -6,15 +6,6 @@ from api import DirLoad
 import os
 
 
-global_data = {
-	'first_name': [],
-	'last_name': [],
-	'phone_number': [],
-	'email': [],
-	'autocomplete': True,
-}
-
-
 commands = {}
 
 

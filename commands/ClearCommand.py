@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # coding: utf-8
 
-from Coms import global_data
+from Data import target_data
 
 
 name = 'clear'
@@ -11,8 +11,8 @@ dependencies = []
 
 
 def execute(args: list):
-	if len(args) == 1 and args[0] in global_data:
-		global_data[args[0]] = []
+	if len(args) == 1 and args[0] in target_data:
+		target_data[args[0]] = []
 	else:
 		usage()
 

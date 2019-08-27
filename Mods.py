@@ -26,6 +26,9 @@ class Module(object):
 	def run(self) -> None or bool:
 		pass
 
+	def print_cache(self) -> None:
+		print(self.cache)
+
 
 def load_modules(path: str = None) -> None:
 
@@ -43,7 +46,7 @@ def load_modules(path: str = None) -> None:
 		required_vars=['name', 'version'],
 		optional_vars=['author', 'requirements', 'cache'],
 		required_funcs=['run'],
-		optional_funcs=['on_load', 'on_unload']
+		optional_funcs=['on_load', 'on_unload', 'print_cache']
 	)
 
 	for module in modules.values():

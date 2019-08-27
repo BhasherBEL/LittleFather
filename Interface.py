@@ -15,16 +15,23 @@ def run() -> None:
 		if len(input_value) == 0:
 			continue
 
-		command = input_value[0]
-		args = [] if len(input_value) == 1 else input_value[1:]
-
-		if command in Coms.commands:
-			Coms.commands[command].execute(args)
-		elif command == 'exit':
-			return
-		else:
-			print('unknown command')
+		if not interpret(input_value):
+			break
 
 
 def custom_input():
 	return input()
+
+
+def interpret(args: list) -> bool:
+	command = args[0]
+	args = [] if len(args) == 1 else args[1:]
+
+	if command in Coms.commands:
+		Coms.commands[command].execute(args)
+	elif command == 'exit':
+		return False
+	else:
+		print('unknown command')
+
+	return True

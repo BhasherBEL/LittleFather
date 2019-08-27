@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # coding: utf-8
 
-from Coms import global_data
+from Data import target_data
 
 
 name = 'add'
@@ -11,8 +11,8 @@ dependencies = []
 
 
 def execute(args: list) -> None:
-	if len(args) >= 2 and args[0] in global_data:
-		global_data[args[0]] += args[1:]
+	if len(args) >= 2 and args[0] in target_data:
+		target_data[args[0]] += args[1:]
 	else:
 		usage()
 

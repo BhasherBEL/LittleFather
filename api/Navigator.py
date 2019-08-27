@@ -11,7 +11,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import os
 
-DELAY = 5
+DELAY = 2
+
+CAPTCHA_MESSAGE = 'Nos systèmes ont détecté un trafic exceptionnel sur votre réseau informatique. Cette page permet de vérifier que c\'est bien vous qui envoyez des requêtes, et non un robot.'
 
 
 def init_driver() -> webdriver.Firefox:
@@ -34,13 +36,15 @@ def search(driver: webdriver.Firefox, query: str, n: int = 20, lang='fr') -> lis
 	except TimeoutException:
 		print("Box or Button not found in google.com")
 	except ElementNotInteractableException:
-		print('Interact box error')
+		pass
 
 	try:
 		WebDriverWait(driver, DELAY).until(EC.presence_of_element_located((By.CLASS_NAME, 'r')))
 		for el in driver.find_elements_by_class_name('r'):
 			output.append(el.find_element_by_tag_name('a').get_attribute('href'))
 	except TimeoutException:
+		if CAPTCHA_MESSAGE in driver.find_element_by_tag_name('body').get_attribute('innerText'):
+			input('Veuillez remplir le captcha, puis appuiez sur enter')
 		print('No results found.')
 
 	return output

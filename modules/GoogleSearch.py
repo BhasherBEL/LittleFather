@@ -31,5 +31,5 @@ def run(args: dict = None) -> None or bool:
 
 	cache['searches'][value] = search(Data.driver, value, i)
 
-	if 'display' not in args or not args['display']:
+	if 'display' not in args or args['display']:
 		print(cache['searches'][value])
