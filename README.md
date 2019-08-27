@@ -5,6 +5,9 @@ LittleFather est un outil modulable d'osint automatisé. Il vient de la même ba
 
 Sa principale force est son coté modulaire. Autrement dit, il suffit d'écrire un module ou une commande et de l'ajouter dans le dossier correspondant pour pouvoir l'exploiter.
 
+### Discord
+Le projet possède son propre serveur discord. Vous pouvez le rejoindre via ce lien d'invitation: [https://discord.gg/bhJ9bGS](https://discord.gg/bhJ9bGS)
+
 ### Modules annexes
 Les modules nécessaires ansi que leurs versions respectives sont dans le fichier requirements.txt, et dont voici la liste:
 - selenium
