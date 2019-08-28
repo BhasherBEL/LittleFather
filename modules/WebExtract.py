@@ -4,7 +4,7 @@
 name = 'WebExtract'
 version = '1.0.0'
 author = 'Bhasher'
-requirements = ['selenium', 'os', 're']
+requirements = ['selenium', 'os', 're', 'time']
 cache = {
 	'websites': {},
 	'outputs': {},
@@ -55,7 +55,7 @@ def run(args: dict = None) -> None or bool:
 
 	from Interface import custom_input
 
-	url = custom_input() if 'search' not in args else args['search']
+	url = custom_input() if 'search' not in args.keys() else args['search']
 
 	if 'websites' not in cache.keys():
 		print('Impossible d\'executer le module sans la liste des sites. Veuillez redémarrer le module.')
@@ -72,3 +72,6 @@ def run(args: dict = None) -> None or bool:
 		return False
 
 	cache['outputs'][url] = output
+
+	if 'print' in args.keys() and args['print']:
+		print(output)

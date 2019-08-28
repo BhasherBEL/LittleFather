@@ -30,7 +30,6 @@ def extract(url: str) -> dict:
 	from selenium.common.exceptions import TimeoutException
 
 	Data.driver.get(url)
-
 	try:
 		Data.driver.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'fn')))
 	except TimeoutException:
