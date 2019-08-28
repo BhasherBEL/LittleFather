@@ -4,42 +4,52 @@
 name = 'TwitterExtract'
 version = '1.0.0'
 author = 'Bhasher'
-requirements = ['re', 'time', 'datetime']
-cache = {}
+
+regex = r'^(https?://)?(www\.)?twitter\.[a-z]{2,3}/[a-z_0-9]+\??([a-zA-Z]+=[a-zA-Z0-9]+&?)*$'
+content = {}
 
 
-def on_load() -> None or bool:
-	pass
-
-
-def on_unload() -> None or bool:
-	pass
-
-
-def run(args: dict = None) -> None or bool:
-	if args is None:
-		args = {}
-
+def add_content(title: str, class_name: str, attribute: str = 'innerText') -> None:
 	import Data
-	from Interface import custom_input
+	from selenium.common.exceptions import NoSuchElementException
 
-	import re
-	import time
-
-	url = custom_input() if 'search' not in args else args['search']
-
-	if not re.match(r'^(https?://)?(www\.[a-z]{2-3})?twitter\.[a-z]{2,3}/[a-z_0-9]+\??([a-zA-Z]+=[a-zA-Z0-9]+&?)*$', url):
-		print('l\'url n\'est pas une url de compte twitter')
-		return
-
-	Data.driver.get(url)
-
-	content = {}
-
-	def add_content(title: str, class_name: str, attribute: str = 'innerText'):
+	try:
 		value = Data.driver.find_element_by_class_name(class_name).get_attribute(attribute).lstrip().rstrip()
 		if value:
 			content[title] = value
+	except NoSuchElementException:
+		pass
+
+
+def add_nav_content(title: str, el_name: str) -> None:
+	import Data
+	from selenium.common.exceptions import NoSuchElementException
+
+	try:
+		value = (
+			Data.driver
+			.find_element_by_class_name('ProfileNav-item--' + el_name)
+			.find_element_by_class_name('ProfileNav-value')
+			.get_attribute('data-count')
+		)
+
+		if value:
+			try:
+				value = int(value)
+			except ValueError:
+				pass
+
+			content[title] = value
+	except NoSuchElementException:
+		pass
+
+
+def extract(url: str) -> dict:
+	import Data
+
+	import time
+
+	Data.driver.get(url)
 
 	bg = Data.driver.find_element_by_class_name('ProfileCanopy-headerBg').find_element_by_tag_name('img').get_attribute('src')
 	if bg:
@@ -66,22 +76,6 @@ def run(args: dict = None) -> None or bool:
 
 	nav = Data.driver.find_element_by_class_name('ProfileNav-list')
 
-	def add_nav_content(title: str, el_name: str):
-		value = (
-			Data.driver
-			.find_element_by_class_name('ProfileNav-item--' + el_name)
-			.find_element_by_class_name('ProfileNav-value')
-			.get_attribute('data-count')
-		)
-
-		if value:
-			try:
-				value = int(value)
-			except ValueError:
-				pass
-
-			content[title] = value
-
 	if nav:
 		add_nav_content('tweets', 'tweets')
 		add_nav_content('following', 'following')
@@ -91,12 +85,10 @@ def run(args: dict = None) -> None or bool:
 	if 'tweets' in content.keys() and 'join_date' in content.keys():
 		content['mean_tweets_per_month'] = int(content['tweets']/((time.time()-content['join_date'])/2628000))
 
-	cache_name = content['pseudo'] if 'pseudo' in content.keys() else url
-
-	cache[cache_name] = content
+	return content
 
 
-def title_date_to_timestamp(strdate: str):
+def title_date_to_timestamp(strdate: str) -> None or int:
 	import time
 	import datetime
 
