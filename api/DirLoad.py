@@ -42,7 +42,12 @@ def load_for_dir(path: str, output_class: classmethod, required_vars: list = Non
 
 			spec = importlib.util.spec_from_file_location(file_name, os.path.relpath(file))
 			file_module = importlib.util.module_from_spec(spec)
-			spec.loader.exec_module(file_module)
+
+			try:
+				spec.loader.exec_module(file_module)
+			except Exception as e:
+				raise_error(e, ErrorLevel.high)
+				continue
 
 			module = output_class()
 

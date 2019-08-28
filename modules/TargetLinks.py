@@ -25,7 +25,7 @@ def run(args: dict = None) -> None or bool:
 	links = []
 	combinations = []
 	for i in range(1, len(datas)+1):
-		combinations += list(itertools.permutations(datas, i))
+		combinations += list(itertools.combinations(datas, i))
 	combinations = [' '.join(combination) for combination in combinations]
 	print('Lancement de', len(combinations), 'recherches.')
 	try:
@@ -48,7 +48,7 @@ def run(args: dict = None) -> None or bool:
 			absent_module('GoogleSearch')
 	except KeyboardInterrupt:
 		pass
-	cache['links'] = reversed(links)
+	cache['links'] = list(reversed(links))
 
 
 def absent_module(name: str) -> None:

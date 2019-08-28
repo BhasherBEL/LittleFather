@@ -20,7 +20,7 @@ def run() -> None:
 
 
 def custom_input():
-	return input()
+	return input('> ')
 
 
 def interpret(args: list) -> bool:
