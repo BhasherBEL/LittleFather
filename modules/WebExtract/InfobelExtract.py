@@ -5,10 +5,11 @@ name = 'InfobelExtract'
 version = '1.0.0'
 author = 'Bhasher'
 
+success_class = 'customer-item-name'
 regex = r'^(https?://)?(www\.)?(local.)?infobel\.[a-zA-Z]{2,3}'
 content = {}
 
-# captcha_msg = ''
+# captcha_msg = 'customer-item-name'
 
 
 def add_content(title: str, class_name: str, attribute: str = 'innerText') -> None:
@@ -23,17 +24,8 @@ def add_content(title: str, class_name: str, attribute: str = 'innerText') -> No
 		pass
 
 
-def extract(url: str) -> dict:
+def extract() -> dict:
 	import Data
-	from selenium.webdriver.support import expected_conditions as EC
-	from selenium.webdriver.common.by import By
-	from selenium.common.exceptions import TimeoutException
-
-	Data.driver.get(url)
-	try:
-		Data.driver.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'customer-item-name')))
-	except TimeoutException:
-		print('No results found.')
 
 	add_content('name', 'customer-item-name')
 	add_content('address', 'address')
@@ -48,6 +40,6 @@ def extract(url: str) -> dict:
 			content['email'] = a.get_attribute('innerText')
 			break
 
-	content['labels'] = [label.get_attribute('innerText') for label in Data.driver.find_elements_by_class_name('customer-item-label ')]
+	content['labels'] = [label.get_attribute('innerText') for label in Data.driver.find_elements_by_class_name('customer-item-label')]
 
 	return content

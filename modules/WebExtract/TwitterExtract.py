@@ -5,6 +5,7 @@ name = 'TwitterExtract'
 version = '1.0.0'
 author = 'Bhasher'
 
+success_class = 'ProfileHeaderCard-name'
 regex = r'^(https?://)?(www\.)?twitter\.[a-z]{2,3}/[a-z_0-9]+\??([a-zA-Z]+=[a-zA-Z0-9]+&?)*$'
 content = {}
 
@@ -44,12 +45,10 @@ def add_nav_content(title: str, el_name: str) -> None:
 		pass
 
 
-def extract(url: str) -> dict:
+def extract() -> dict:
 	import Data
 
 	import time
-
-	Data.driver.get(url)
 
 	bg = Data.driver.find_element_by_class_name('ProfileCanopy-headerBg').find_element_by_tag_name('img').get_attribute('src')
 	if bg:

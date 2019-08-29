@@ -18,6 +18,7 @@ CAPTCHA_MESSAGE = 'Nos systèmes ont détecté un trafic exceptionnel sur votre 
 
 def init_driver() -> webdriver.Firefox:
 	driver = webdriver.Firefox(executable_path=os.path.join(os.path.dirname(os.path.abspath(lf_file)), 'geckodriver'))
+	driver.implicitly_wait(5)
 	driver.wait = WebDriverWait(driver, DELAY)
 	return driver
 

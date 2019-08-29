@@ -11,6 +11,6 @@ target_data = {
 	'pseudos': [],
 	'phone_numbers': [],
 	'addresses': [],
-	'email': [],
+	'emails': [],
 	'autocomplete': True,
 }

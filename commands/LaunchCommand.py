@@ -17,12 +17,8 @@ def execute(args: list) -> None:
 	if len(args) >= 1 and args[0] in Mods.modules.keys():
 		margs = {}
 		pm = ' '.join(args[1:])
-		for __ in pm:
-			m = re.match(r'[a-zA-Z0-9]+=(\'.*\'|".*"|[^ ]+)', pm)
-			if m is None:
-				break
-			pm = pm[0: m.start()] + pm[m.end() + 1:]
-			splitted = m.group(0).split('=')
+		for arg in re.findall(r'([a-zA-Z0-9_]+=(?:\'.*\'|".*"|[^ ]+))', pm):
+			splitted = arg.split('=')
 			if len(splitted) >= 2:
 				content = '='.join(splitted[1:])
 				if (content.startswith('\'') or content.startswith('"')) and len(content) > 1:
